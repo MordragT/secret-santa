@@ -8,13 +8,20 @@
     <br><br><br>
     <p class="title" style="font-size: 400%;">{{ ticket }}</p>
     <br><br><br>
-    <form action="./" method="post">
-        <input type="hidden" value="{{ ticket }}">
-        <div class="buttons has-addons is-centered">
-            <button href="/draft/{{ id }}" class="button is-primary selected">Los annehmen</button>
-            <button type="submit" class="button is-primary is-light">Los zurückgeben</button>
-        </div>
-
-    </form>
+    <div class="buttons has-addons is-centered">
+        <button onclick="submit()" class="button is-primary selected">Los annehmen</button>
+        <button onclick="cancel()" class="button is-primary is-light">Los zurückgeben</button>
+    </div>
 </div>
 {% endblock content %}
+
+{% block script %}
+<script>
+    function submit() {
+        window.location.href = "/"
+    }
+    function cancel() {
+        window.location.href = "/draft/{{ id }}/retry/{{ ticket }}"
+    }
+</script>
+{% endblock script %}

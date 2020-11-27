@@ -4,5 +4,5 @@
 {% block content_title %}Es wurde kein passendes Los gefunden{% endblock content_title %}
 
 {% block content %}
-<p>Möglicherweise ist nur noch ihr Name in der Losbox vorhanden</p>
+<p>Möglicherweise ist nur noch ihr Name in der Losbox vorhanden, oder sie sind gar nicht Mitglied der Losung</p>
 {% endblock content %}

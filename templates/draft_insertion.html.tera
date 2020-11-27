@@ -48,6 +48,7 @@
         let inputControl = document.createElement("div")
         inputControl.className = "control"
         let input = document.createElement("input")
+        input.required = true
         input.className = "input"
         input.type = "text"
         input.name = "tickets"

@@ -4,12 +4,21 @@
 {% block content_subtitle %}{{ draft.date }}{% endblock content_subtitle %}
 
 {% block content %}
+<div class="has-text-centered">
+    <h4 class="title  is-4">Mitglieder:</h4>
+    <p>
+        {% for member in draft.members %}
+        {{ member }},
+        {% endfor %}
+    </p>
+</div>
+<br>
 {% if draft.tickets %}
 <div class="has-text-centered">
     <p>Es gibt noch {{ draft.tickets | length() }} zu ziehende Lose, greif zu !</p>
 </div>
 <br><br>
-<form action="/" method="get">
+<div>
     <label class="label">Eigener Name:</label>
     <div class="field">
         <div class="control">
@@ -18,12 +27,10 @@
     </div>
 
     <div class="buttons has-addons is-centered">
-        <button class="button is-primary"
-            onclick="window.location.href = window.location.href + '/ticket/' + document.getElementById('name').value">Ziehe
-            Los</button>
-        <button onclick="window.location.href = '/'" class="button is-primary is-light">Abbrechen</button>
+        <button class="button is-primary" onclick="submit()">Ziehe Los</button>
+        <button onclick="cancel()" class="button is-primary is-light">Abbrechen</button>
     </div>
-</form>
+</div>
 {% else %}
 <div class="has-text-centered">
     <p>Es gibt keine zu ziehenden Lose mehr</p>
@@ -42,5 +49,20 @@
             window.location.reload();
         }
     });
+
+    function submit() {
+        let input = document.getElementById("name");
+        if (input.validity.valid) {
+            window.location.href = window.location.href + '/ticket/' + input.value
+        } else {
+            let info = document.createElement("p")
+            info.className = "help"
+            info.innerText = "Bitte gebe deinen Namen an."
+            input.parentElement.parentElement.appendChild(info)
+        }
+    }
+    function cancel() {
+        window.location.href = '/'
+    }
 </script>
 {% endblock script %}

@@ -2,6 +2,7 @@
 #[macro_use]
 extern crate rocket;
 
+use rand::seq::SliceRandom;
 use rocket::request::{Form, FormItems, FromForm};
 use rocket::response::Redirect;
 use rocket::State;
@@ -32,40 +33,12 @@ impl fmt::Display for DraftError {
     }
 }
 
-// #[derive(Deserialize, Serialize, Debug)]
-// struct Ticket {
-//     value: String,
-//     owner: RwLock<Option<String>>,
-// }
-
-// impl PartialEq for Ticket {
-//     fn eq(&self, other: &Ticket) -> bool {
-//         self.value == other.value
-//     }
-// }
-
-// impl Eq for Ticket {}
-
-// impl Hash for Ticket {
-//     fn hash<H: Hasher>(&self, state: &mut H) {
-//         self.value.hash(state);
-//     }
-// }
-
-// impl Ticket {
-//     fn new(value: String) -> Ticket {
-//         Ticket {
-//             value,
-//             owner: RwLock::new(None),
-//         }
-//     }
-// }
-
 #[derive(Deserialize, Serialize, Debug, Clone)]
 struct Draft {
     title: String,
     date: String,
     tickets: HashSet<String>,
+    members: HashSet<String>,
 }
 
 impl<'f> FromForm<'f> for Draft {
@@ -76,6 +49,7 @@ impl<'f> FromForm<'f> for Draft {
             title: String::new(),
             date: String::new(),
             tickets: HashSet::new(),
+            members: HashSet::new(),
         };
         for item in items {
             let key: &str = &*item.key;
@@ -86,8 +60,10 @@ impl<'f> FromForm<'f> for Draft {
             match key {
                 "title" => draft.title = value,
                 "date" => draft.date = value,
-                "tickets" => match draft.tickets.insert(value) {
-                    true => (),
+                "tickets" => match draft.tickets.insert(value.clone()) {
+                    true => {
+                        draft.members.insert(value);
+                    }
                     false => return Err(Self::Error::TicketAlreadyDefined),
                 },
                 _ => {
@@ -153,22 +129,28 @@ fn api_post_draft_ticket(draft: usize, ticket_value: String, drafts: State<Draft
     }
 }
 
-#[get("/api/draft/<draft>/ticket/<ticket>")]
-fn api_draft_ticket(draft: usize, ticket: String, drafts: State<Drafts>) -> Json<Option<String>> {
+#[get("/api/draft/<draft>/ticket/<name>")]
+fn api_draft_ticket(draft: usize, name: String, drafts: State<Drafts>) -> Json<Option<String>> {
     match drafts.write() {
         Ok(mut drafts) => match drafts.get_mut(draft) {
-            Some(draft) => match draft
-                .tickets
-                .iter()
-                .find(|t| if **t != ticket { true } else { false })
-            {
-                Some(ticket) => {
-                    let ticket = ticket.clone();
-                    draft.tickets.remove(&ticket);
-                    Json(Some(ticket))
+            Some(draft) => {
+                if !draft.members.contains(&name) {
+                    return Json(None);
                 }
-                None => Json(None),
-            },
+                let entries: Vec<&String> = draft
+                    .tickets
+                    .iter()
+                    .filter(|t| if **t != name { true } else { false })
+                    .collect();
+                match entries.choose(&mut rand::thread_rng()) {
+                    Some(ticket) => {
+                        let ticket = ticket.to_string();
+                        draft.tickets.remove(&ticket);
+                        Json(Some(ticket))
+                    }
+                    None => Json(None),
+                }
+            }
             None => Json(None),
         },
         Err(_) => Json(None),
@@ -235,10 +217,10 @@ fn insert_ticket(id: usize, name: String, drafts: State<Drafts>) -> Redirect {
     }
 }
 
-#[post("/draft/<id>/ticket/<name>", data = "<old_ticket>")]
-fn retry_ticket(id: usize, name: String, old_ticket: String, drafts: State<Drafts>) -> Redirect {
+#[get("/draft/<id>/retry/<old_ticket>")]
+fn retry_ticket(id: usize, old_ticket: String, drafts: State<Drafts>) -> Redirect {
     match api_post_draft_ticket(id, old_ticket, drafts).0 {
-        true => Redirect::to(uri!(show_ticket: id, name)),
+        true => Redirect::to(uri!(show_draft: id)),
         false => Redirect::to(uri!(show_internal_error)),
     }
 }
@@ -260,7 +242,8 @@ fn main() {
                 insert_draft,
                 show_draft,
                 show_ticket,
-                insert_ticket
+                insert_ticket,
+                retry_ticket,
             ],
         )
         .attach(Template::fairing())

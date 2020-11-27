@@ -1349,6 +1349,7 @@ checksum = "1a143597ca7c7793eff794def352d41792a93c481eb1042423ff7ff72ba2c31f"
 name = "weihnachts-wichtel"
 version = "0.1.0"
 dependencies = [
+ "rand",
  "rocket",
  "rocket_contrib",
  "serde",
