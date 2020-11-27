@@ -1,0 +1,46 @@
+{%extends "app" %}
+{% block title %}{{ draft.title }}{% endblock title %}
+{% block content_title %}{{ draft.title }}{% endblock content_title %}
+{% block content_subtitle %}{{ draft.date }}{% endblock content_subtitle %}
+
+{% block content %}
+{% if draft.tickets %}
+<div class="has-text-centered">
+    <p>Es gibt noch {{ draft.tickets | length() }} zu ziehende Lose, greif zu !</p>
+</div>
+<br><br>
+<form action="/" method="get">
+    <label class="label">Eigener Name:</label>
+    <div class="field">
+        <div class="control">
+            <input class="input" type="text" id="name" placeholder="Text Eingabe..." required>
+        </div>
+    </div>
+
+    <div class="buttons has-addons is-centered">
+        <button class="button is-primary"
+            onclick="window.location.href = window.location.href + '/ticket/' + document.getElementById('name').value">Ziehe
+            Los</button>
+        <button onclick="window.location.href = '/'" class="button is-primary is-light">Abbrechen</button>
+    </div>
+</form>
+{% else %}
+<div class="has-text-centered">
+    <p>Es gibt keine zu ziehenden Lose mehr</p>
+</div>
+{% endif %}
+{% endblock content %}
+
+{% block script %}
+<script>
+    window.addEventListener("pageshow", function (event) {
+        var historyTraversal = event.persisted ||
+            (typeof window.performance != "undefined" &&
+                window.performance.navigation.type === 2);
+        if (historyTraversal) {
+            // Handle page restore.
+            window.location.reload();
+        }
+    });
+</script>
+{% endblock script %}

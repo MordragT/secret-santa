@@ -1,0 +1,7 @@
+{%extends "app" %}
+{% block title %}Losbox nicht gefunden{% endblock title %}
+{% block content_title %}Losbox nicht gefunden{% endblock content_title %}
+{% block content %}
+<p>Haben sie die Url manuell eingeben ?</p>
+<p>Versuchen sie über die Hauptseite auf ihre gewünschte Losbox zu navigieren.</p>
+{% endblock content %}

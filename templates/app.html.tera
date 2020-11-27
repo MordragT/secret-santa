@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}{% endblock head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body
+    style="background: url('/img/background.jpg'); background-repeat: repeat-y; background-attachment: scroll; background-size: cover; height: 100vh;">
+    <nav class="navbar is-primary" role="navigation">
+        <div class="container">
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a href="/" class="navbar-item">Home</a>
+                    <a href="/draft" class="navbar-item">Neue Losbox</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        <div class="container has-text-white">
+            <div class="columns">
+                <div class="column"></div>
+                <div class="column">
+                    <h1 class="title has-text-centered">
+                        {% block content_title %}{% endblock content_title %}
+                    </h1>
+                    <h3 class="subtitle has-text-centered">
+                        {% block content_subtitle %}{% endblock content_subtitle %}
+                    </h3>
+                    <br>
+                    {% block content %}{% endblock content %}
+                </div>
+                <div class="column"></div>
+            </div>
+        </div>
+    </section>
+    <!-- <section class="section">
+        <footer class="footer">
+            <div class="content has-text-centered">
+                <p>Mit Rocket und Bulma erstellt.</p>
+            </div>
+        </footer>
+    </section> -->
+    {% block script %}{% endblock script %}
+</body>
+
+</html>

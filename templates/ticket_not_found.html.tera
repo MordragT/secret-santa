@@ -1,0 +1,8 @@
+{%extends "app" %}
+{% block title %}Los nicht gefunden{% endblock title %}
+
+{% block content_title %}Es wurde kein passendes Los gefunden{% endblock content_title %}
+
+{% block content %}
+<p>Möglicherweise ist nur noch ihr Name in der Losbox vorhanden</p>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{%extends "app" %}
+{% block title %}Los{% endblock title %}
+
+{% block content_title %}Ihr Los wurde zufällig gezogen{% endblock content_title %}
+
+{% block content %}
+<div class="has-text-centered">
+    <br><br><br>
+    <p class="title" style="font-size: 400%;">{{ ticket }}</p>
+    <br><br><br>
+    <form action="./" method="post">
+        <input type="hidden" value="{{ ticket }}">
+        <div class="buttons has-addons is-centered">
+            <button href="/draft/{{ id }}" class="button is-primary selected">Los annehmen</button>
+            <button type="submit" class="button is-primary is-light">Los zurückgeben</button>
+        </div>
+
+    </form>
+</div>
+{% endblock content %}

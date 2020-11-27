@@ -1,0 +1,78 @@
+{%extends "app" %}
+{% block title %}Neue Losbox{% endblock title %}
+{% block content_title %}Neue Losbox zusammenschnüren{% endblock content_title %}
+{% block content %}
+<form action="/draft" method="post">
+    <label class="label">Titel</label>
+    <div class="field">
+        <div class="control">
+            <input class="input" type="text" name="title" id="title" placeholder="Text Eingabe..." required>
+        </div>
+    </div>
+
+    <label class="label">Datum</label>
+    <div class="field">
+        <div class="control">
+            <input class="input" type="date" name="date" id="date" required>
+        </div>
+    </div>
+
+    <label class="label">Teilnehmer</label>
+    <div id="members">
+        <div class="field has-addons">
+            <div class="control">
+                <input class="input" type="text" name="tickets" id="tickets" placeholder="Text Eingabe..." required>
+            </div>
+            <div class="control">
+                <a class="button is-success" onclick="addMember()">+</a>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <div class="field">
+        <button class="button is-primary" type="submit">Absenden</button>
+    </div>
+</form>
+{% endblock content %}
+
+{% block script %}
+<script>
+    var counter = 0
+    function addMember() {
+        counter += 1
+
+        let member = document.createElement("div")
+        member.className = "field has-addons"
+        member.id = "member" + counter
+        let inputControl = document.createElement("div")
+        inputControl.className = "control"
+        let input = document.createElement("input")
+        input.className = "input"
+        input.type = "text"
+        input.name = "tickets"
+        input.id = "tickets"
+        input.placeholder = "Text Eingabe..."
+
+        inputControl.appendChild(input)
+
+        let buttonControl = document.createElement("div")
+        buttonControl.className = "control"
+        let button = document.createElement("a")
+        button.innerText = "-"
+        button.className = "button is-danger"
+        button.setAttribute("onclick", "removeMember(" + counter + ")")
+
+        buttonControl.appendChild(button)
+
+        member.appendChild(inputControl)
+        member.appendChild(buttonControl)
+
+        document.getElementById('members').appendChild(member)
+    }
+    function removeMember(c) {
+        let member = document.getElementById('member' + c)
+        member.remove()
+    }
+</script>
+{% endblock script %}

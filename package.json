@@ -1,0 +1,16 @@
+{
+  "name": "weihnachts-wichtel",
+  "version": "1.0.0",
+  "main": "sass/style.sass",
+  "author": "MordragT <scrat_games@gmx.de>",
+  "license": "MIT",
+  "dependencies": {
+    "bulma": "^0.9.1",
+    "node-sass": "^5.0.0"
+  },
+  "scripts": {
+    "css-build": "node-sass --omit-source-map-url sass/style.sass css/style.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  }
+}

@@ -1,0 +1,9 @@
+{%extends "app" %}
+{% block title %}500 Internal Server Error{% endblock title %}
+{% block content_title %}Error Code 500{% endblock content_title %}
+{% block content_subtitle %}Internal Server Error{% endblock content_subtitle %}
+
+{% block content %}
+<p>Leider konnte ihre Anfrage zur Zeit nicht bearbeitet werden.</p>
+<p>Bitte versuchen Sie es später erneut.</p>
+{% endblock content %}

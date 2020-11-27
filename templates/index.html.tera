@@ -1,0 +1,18 @@
+{%extends "app" %}
+{% block title %}Weihnachts Wichtel{% endblock title %}
+{% block content_title %}Weihnachts Wichtel{% endblock content_title %}
+{% block content %}
+<div class="content has-text-centered">
+    <p>Willkommen beim wichteln, schaue doch weiter unten ob </p>
+    <p>das Losverfahren bereits gestartet wurde.</p>
+    <p>Ansonsten erstelle doch selber eines unter 'Neue Losbox'</p>
+</div>
+<br><br>
+
+<div class="has-text-centered">
+    <h3 class="title">Losboxen</h3>
+    {% for draft in drafts %}
+    <a class="button is-primary" href="/draft/{{ loop.index - 1 }}">{{ draft.title }}</a>
+    {% endfor %}
+</div>
+{% endblock content %}
