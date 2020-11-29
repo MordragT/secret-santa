@@ -21,7 +21,12 @@
     <div id="members">
         <div class="field has-addons">
             <div class="control">
-                <input class="input" type="text" name="tickets" id="tickets" placeholder="Text Eingabe..." required>
+                <input class="input" type="text" id="name" name="name" placeholder="Text Eingabe..." required>
+                <p class="help">Dein Name</p>
+            </div>
+            <div class="control">
+                <input type="number" class="input" id="team" name="team" required>
+                <p class="help">Deine Teamnummer</p>
             </div>
             <div class="control">
                 <a class="button is-success" onclick="addMember()">+</a>
@@ -47,15 +52,34 @@
         member.id = "member" + counter
         let inputControl = document.createElement("div")
         inputControl.className = "control"
-        let input = document.createElement("input")
-        input.required = true
-        input.className = "input"
-        input.type = "text"
-        input.name = "tickets"
-        input.id = "tickets"
-        input.placeholder = "Text Eingabe..."
+        let nameInput = document.createElement("input")
+        nameInput.required = true
+        nameInput.className = "input"
+        nameInput.type = "text"
+        nameInput.name = "name"
+        nameInput.id = "name"
+        nameInput.placeholder = "Text Eingabe..."
+        let nameHelp = document.createElement("p")
+        nameHelp.className = "help"
+        nameHelp.innerText = "Dein Name"
 
-        inputControl.appendChild(input)
+        inputControl.appendChild(nameInput)
+        inputControl.appendChild(nameHelp)
+
+        let teamInputControl = document.createElement("div")
+        teamInputControl.className = "control"
+        let teamInput = document.createElement("input")
+        teamInput.required = true
+        teamInput.className = "input"
+        teamInput.type = "number"
+        teamInput.name = "team"
+        teamInput.id = "team"
+        let teamHelp = document.createElement("p")
+        teamHelp.className = "help"
+        teamHelp.innerText = "Deine Teamnummer"
+
+        teamInputControl.appendChild(teamInput)
+        teamInputControl.appendChild(teamHelp)
 
         let buttonControl = document.createElement("div")
         buttonControl.className = "control"
@@ -67,6 +91,7 @@
         buttonControl.appendChild(button)
 
         member.appendChild(inputControl)
+        member.appendChild(teamInputControl)
         member.appendChild(buttonControl)
 
         document.getElementById('members').appendChild(member)

@@ -12,7 +12,9 @@
 <div class="has-text-centered">
     <h3 class="title">Losboxen</h3>
     {% for draft in drafts %}
-    <a class="button is-primary" href="/draft/{{ loop.index - 1 }}">{{ draft.title }}</a>
+    <div class="field">
+        <a class="button is-primary" href="/draft/{{ loop.index - 1 }}">{{ draft.title }}</a>
+    </div>
     {% endfor %}
 </div>
 {% endblock content %}

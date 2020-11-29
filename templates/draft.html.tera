@@ -4,38 +4,30 @@
 {% block content_subtitle %}{{ draft.date }}{% endblock content_subtitle %}
 
 {% block content %}
-<div class="has-text-centered">
+<!-- <div class="has-text-centered">
     <h4 class="title  is-4">Mitglieder:</h4>
     <p>
         {% for member in draft.members %}
-        {{ member }},
+        {{ member.name }},
         {% endfor %}
     </p>
 </div>
-<br>
-{% if draft.tickets %}
+<br> -->
 <div class="has-text-centered">
-    <p>Es gibt noch {{ draft.tickets | length() }} zu ziehende Lose, greif zu !</p>
-</div>
-<br><br>
-<div>
-    <label class="label">Eigener Name:</label>
+    {% for member in draft.members %}
     <div class="field">
         <div class="control">
-            <input class="input" type="text" id="name" placeholder="Text Eingabe..." required>
+            <button class="button is-primary" onclick="submit('{{ member.name }}')">{{ member.name }}</button>
         </div>
     </div>
+    {% endfor %}
 
-    <div class="buttons has-addons is-centered">
-        <button class="button is-primary" onclick="submit()">Ziehe Los</button>
-        <button onclick="cancel()" class="button is-primary is-light">Abbrechen</button>
+    <div class="field">
+        <div class="control">
+            <button onclick="cancel()" class="button is-primary is-light">Abbrechen</button>
+        </div>
     </div>
 </div>
-{% else %}
-<div class="has-text-centered">
-    <p>Es gibt keine zu ziehenden Lose mehr</p>
-</div>
-{% endif %}
 {% endblock content %}
 
 {% block script %}
@@ -50,16 +42,8 @@
         }
     });
 
-    function submit() {
-        let input = document.getElementById("name");
-        if (input.validity.valid) {
-            window.location.href = window.location.href + '/ticket/' + input.value
-        } else {
-            let info = document.createElement("p")
-            info.className = "help"
-            info.innerText = "Bitte gebe deinen Namen an."
-            input.parentElement.parentElement.appendChild(info)
-        }
+    function submit(value) {
+        window.location.href = window.location.href + '/ticket/' + value
     }
     function cancel() {
         window.location.href = '/'

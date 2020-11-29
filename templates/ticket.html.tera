@@ -6,11 +6,12 @@
 {% block content %}
 <div class="has-text-centered">
     <br><br><br>
+    <h4 class="title is-4">{{ name }}, dein Los:</h4>
     <p class="title" style="font-size: 400%;">{{ ticket }}</p>
     <br><br><br>
     <div class="buttons has-addons is-centered">
-        <button onclick="submit()" class="button is-primary selected">Los annehmen</button>
-        <button onclick="cancel()" class="button is-primary is-light">Los zurückgeben</button>
+        <button onclick="submit()" class="button is-primary selected">Gehe zurück</button>
+        <!-- <button onclick="cancel()" class="button is-primary is-light">Los zurückgeben</button> -->
     </div>
 </div>
 {% endblock content %}
@@ -18,10 +19,10 @@
 {% block script %}
 <script>
     function submit() {
-        window.location.href = "/"
+        window.location.href = "/draft/" + '{{ id }}'
     }
-    function cancel() {
-        window.location.href = "/draft/{{ id }}/retry/{{ ticket }}"
-    }
+    // function cancel() {
+    //     window.location.href = "/draft/{{ id }}/retry/{{ ticket }}"
+    // }
 </script>
 {% endblock script %}
