@@ -1,5 +1,4 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-#![feature(str_split_once)]
 #[macro_use]
 extern crate rocket;
 
